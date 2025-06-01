@@ -1,11 +1,14 @@
+import { AuthProvider } from '@/context/AuthContext';
 import { ThemeProvider } from '@/context/theme.context';
-import { Stack } from 'expo-router';
+import { Slot } from 'expo-router';
 import './global.css';
 
 export default function RootLayout() {
   return (
     <ThemeProvider>
-      <Stack />
+      <AuthProvider>
+        <Slot />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

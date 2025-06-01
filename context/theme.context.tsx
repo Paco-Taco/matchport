@@ -4,7 +4,7 @@ import { useColorScheme } from 'react-native';
 
 // Define your custom themes
 const LightTheme = {
-  dark: false,
+  isDark: false,
   colors: {
     background: '#fefefe',
     text: '#000000',
@@ -12,7 +12,7 @@ const LightTheme = {
 };
 
 const DarkTheme = {
-  dark: true,
+  isDark: true,
   colors: {
     background: '#000000',
     text: '#ffffff',
@@ -45,7 +45,7 @@ export const ThemeProvider = ({ children }: any) => {
   const toggleTheme = async () => {
     const newTheme = theme === DarkTheme ? LightTheme : DarkTheme;
     setTheme(newTheme);
-    await AsyncStorage.setItem('userTheme', newTheme.dark ? 'dark' : 'light');
+    await AsyncStorage.setItem('userTheme', newTheme.isDark ? 'dark' : 'light');
   };
 
   return (
