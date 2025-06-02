@@ -7,7 +7,7 @@ const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
-  const [session, setSession] = useState(true);
+  const [session, setSession] = useState(false);
   const [user, setUser] = useState({
     username: 'Paco',
     rol: 'carrier',
