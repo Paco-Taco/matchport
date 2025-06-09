@@ -1,13 +1,16 @@
 import { AuthProvider } from '@/context/AuthContext';
-import { ThemeProvider } from '@/context/theme.context';
+import { ThemeProvider, useTheme } from '@/context/theme.context';
 import { useFonts } from 'expo-font';
 import { Slot, SplashScreen } from 'expo-router';
 import { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import './global.css';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  const { theme } = useTheme();
+
   const [loaded, error] = useFonts({
     'Poppins-Black': require('../assets/fonts/Poppins-Black.ttf'),
     'Poppins-BlackItalic': require('../assets/fonts/Poppins-BlackItalic.ttf'),
@@ -40,10 +43,17 @@ export default function RootLayout() {
   }
 
   return (
+    // <GestureHandlerRootView style={{ flex: 1 }}>
     <ThemeProvider>
       <AuthProvider>
+        <StatusBar
+          barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+          backgroundColor="transparent"
+          translucent
+        />
         <Slot />
       </AuthProvider>
     </ThemeProvider>
+    // </GestureHandlerRootView>
   );
 }

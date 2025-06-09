@@ -3,13 +3,15 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 
 // Define your custom themes
-const LightTheme = {
-  isDark: false,
-  colors: {
-    background: '#fefefe',
-    text: '#000000',
-  },
-};
+// const LightTheme = {
+//   isDark: false,
+//   colors: {
+//     background: '#fefefe',
+//     text: '#000000',
+//   },
+// };
+
+const LightTheme = 'light';
 
 const DarkTheme = {
   isDark: true,

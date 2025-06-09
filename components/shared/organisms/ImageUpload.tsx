@@ -7,9 +7,14 @@ import { Image, Pressable, Text, View } from 'react-native';
 interface ImageUploadProps {
   label?: string;
   variant?: 'rounded' | 'circle';
+  aspect?: [number, number];
 }
 
-const ImageUpload = ({ label, variant = 'rounded' }: ImageUploadProps) => {
+const ImageUpload = ({
+  label,
+  variant = 'rounded',
+  aspect,
+}: ImageUploadProps) => {
   const [imageUri, setImageUri] = useState<string | null>(null);
 
   const pickImage = async () => {
@@ -26,6 +31,7 @@ const ImageUpload = ({ label, variant = 'rounded' }: ImageUploadProps) => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
+      aspect: aspect,
       quality: 0.7,
     });
 
@@ -36,7 +42,9 @@ const ImageUpload = ({ label, variant = 'rounded' }: ImageUploadProps) => {
 
   const containerClass = clsx(
     'border-2 border-dashed border-gray-300 items-center justify-center',
-    variant === 'circle' ? 'w-32 h-32 rounded-full' : 'h-36 rounded-xl w-full'
+    variant === 'circle'
+      ? 'w-32 h-32 rounded-full'
+      : 'h-60 rounded-xl w-full max-w-[400px]'
   );
 
   const imageClass = clsx(
@@ -47,7 +55,7 @@ const ImageUpload = ({ label, variant = 'rounded' }: ImageUploadProps) => {
   return (
     <View className="my-4">
       {label && (
-        <Text className="text-base font-semibold text-gray-800 mb-2">
+        <Text className="text-base font-regular text-gray-800 mb-2">
           {label}
         </Text>
       )}

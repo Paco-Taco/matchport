@@ -3,9 +3,12 @@ import TextInputCustom from '@/components/shared/atoms/TextInputCustom';
 import KeyboardAwareLayout from '@/components/shared/molecules/KeyboardAwareLayout';
 import { useAuth } from '@/context/AuthContext';
 import { LoginRequest } from '@/infraestructure/interfaces/login.interface';
+import { IsAndroid, IsIPAD } from '@/themes/app.constant';
 import { Redirect, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
+import { verticalScale } from 'react-native-size-matters';
+import logo from '../../assets/images/sign-in/logo.png';
 
 const Login = () => {
   const { session, user } = useAuth();
@@ -56,9 +59,16 @@ const Login = () => {
     <KeyboardAwareLayout safeArea>
       <View className="flex-row justify-center mt-6 mb-4">
         <Image
-          src={'@/assets/images/sign-in/logo.png'}
-          width={200}
-          height={200}
+          source={logo}
+          style={{
+            height: IsIPAD
+              ? verticalScale(345)
+              : IsAndroid
+              ? verticalScale(260)
+              : verticalScale(150),
+            width: '70%',
+            resizeMode: 'contain',
+          }}
         />
       </View>
 
@@ -86,7 +96,7 @@ const Login = () => {
               onChangeText={(value) => handleInputChange('password', value)}
             />
             <View className="items-end">
-              <Text className={`text-secondary ml-2`}>
+              <Text className={`text-secondary font-regular ml-2`}>
                 ¿Olvidaste tu contraseña?
               </Text>
             </View>
@@ -103,14 +113,14 @@ const Login = () => {
           <Text
             className={`text-xl text-center ${
               !isFormComplete ? 'text-gray-400' : 'text-white'
-            } font-noto-regular`}
+            } font-medium`}
           >
             Iniciar Sesión
           </Text>
         </TouchableOpacity>
 
         <View className="items-center my-4">
-          <Text className={`text-gray-500`}>
+          <Text className={`text-gray-500 font-regular`}>
             ¿No tienes cuenta?{' '}
             <Text
               className="text-secondary"

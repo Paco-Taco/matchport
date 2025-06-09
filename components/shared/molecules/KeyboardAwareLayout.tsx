@@ -16,12 +16,15 @@ const KeyboardAwareLayout = ({ children, className, safeArea }: Props) => {
       extraScrollHeight={20}
       enableOnAndroid
       keyboardShouldPersistTaps="handled"
+      enableResetScrollToCoords={false}
       className={className ? className : 'bg-background'}
     >
       {safeArea ? (
-        <SafeAreaView className="flex flex-1 px-7">{children}</SafeAreaView>
+        <SafeAreaView className="flex flex-1 px-7 py-4">
+          {children}
+        </SafeAreaView>
       ) : (
-        <View className="flex flex-1 px-7">{children}</View>
+        <View className="flex flex-1 px-7 py-4">{children}</View>
       )}
     </KeyboardAwareScrollView>
   );
