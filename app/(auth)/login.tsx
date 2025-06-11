@@ -8,13 +8,14 @@ import { Redirect, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Alert, Image, Text, TouchableOpacity, View } from 'react-native';
 import { verticalScale } from 'react-native-size-matters';
+//  @ts-ignore
 import logo from '../../assets/images/sign-in/logo.png';
 
 const Login = () => {
   const { session, user } = useAuth();
   const router = useRouter();
   const [credentials, setCredentials] = useState({
-    username: '',
+    email: '',
     password: '',
   });
 
@@ -28,7 +29,7 @@ const Login = () => {
   }
 
   const handleLogin = async () => {
-    if (!credentials.username.trim() || !credentials.password.trim()) {
+    if (!credentials.email.trim() || !credentials.password.trim()) {
       Alert.alert('Error', 'Por favor, ingrese usuario y contraseña.');
       return;
     }
@@ -46,7 +47,7 @@ const Login = () => {
     }));
   };
 
-  const isFormComplete = credentials.username && credentials.password;
+  const isFormComplete = credentials.email && credentials.password;
 
   return (
     // <KeyboardAvoidingView
@@ -83,9 +84,9 @@ const Login = () => {
         <View className="space-y-2">
           <Text className={'text-gray-700 ml-2 mb-1'}>Email</Text>
           <TextInputCustom
-            placeholder="Ingrese su usuario"
-            value={credentials.username}
-            onChangeText={(value) => handleInputChange('username', value)}
+            placeholder="Ingrese su correo"
+            value={credentials.email}
+            onChangeText={(value) => handleInputChange('email', value)}
           />
 
           <View className="flex">

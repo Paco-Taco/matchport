@@ -4,16 +4,31 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 
+export interface ImageFile {
+  uri: string;
+  name: string;
+  type: string;
+}
 interface ImageUploadProps {
   label?: string;
   variant?: 'rounded' | 'circle';
   aspect?: [number, number];
+  onChange?: (file: ImageFile) => void;
 }
+
+const getImageMeta = (uri: string): { name: string; type: string } => {
+  const filename = uri.split('/').pop() || 'image.jpg';
+  const match = /\.(\w+)$/.exec(filename);
+  const extension = match?.[1]?.toLowerCase();
+  const mime = extension === 'png' ? 'image/png' : 'image/jpeg';
+  return { name: filename, type: mime };
+};
 
 const ImageUpload = ({
   label,
   variant = 'rounded',
   aspect,
+  onChange,
 }: ImageUploadProps) => {
   const [imageUri, setImageUri] = useState<string | null>(null);
 
@@ -31,12 +46,18 @@ const ImageUpload = ({
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ['images'],
       allowsEditing: true,
-      aspect: aspect,
+      aspect: variant === 'circle' ? [1, 1] : aspect,
       quality: 0.7,
     });
 
     if (!result.canceled && result.assets.length > 0) {
-      setImageUri(result.assets[0].uri);
+      const { uri } = result.assets[0];
+      const meta = getImageMeta(uri);
+      console.log(meta);
+      const file = { uri, name: meta.name, type: meta.type };
+
+      setImageUri(uri);
+      onChange?.(file);
     }
   };
 
