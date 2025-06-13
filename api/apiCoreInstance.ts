@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const apiCoreInstance = axios.create({
   baseURL: 'https://forwarder-api.onrender.com',
-  timeout: 10000,
+  timeout: 100000,
 });
 
 apiCoreInstance.interceptors.response.use(null, httpErrorHandler);

@@ -8,8 +8,8 @@ export interface RegisterPayload {
   phoneNumber: string;
   rfc: string;
   password: string;
-  ine: ImageFile;
-  profilePhoto?: ImageFile;
+  ine: ImageFile | null;
+  profilePhoto?: ImageFile | null;
 }
 
 export const registerUser = async (payload: RegisterPayload) => {
@@ -17,6 +17,7 @@ export const registerUser = async (payload: RegisterPayload) => {
 
   formData.append('firstName', payload.firstName);
   formData.append('lastName', payload.lastName);
+  formData.append('email', payload.email);
   formData.append('phoneNumber', payload.phoneNumber);
   formData.append('rfc', payload.rfc);
   formData.append('password', payload.password);

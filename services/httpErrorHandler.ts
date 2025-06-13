@@ -18,6 +18,13 @@ export const httpErrorHandler = (error: AxiosError) => {
       return Promise.reject(new Error('Conexión cancelada'));
     }
 
+    if (code === 'ECONNABORTED') {
+      console.error(`Timeout en la solicitud al endpoint: ${endpoint}`);
+      return Promise.reject(
+        new Error('La solicitud tardó demasiado en responder')
+      );
+    }
+
     if (response) {
       const status = response.status;
       const errorData = response.data;
@@ -48,6 +55,11 @@ export const httpErrorHandler = (error: AxiosError) => {
       return Promise.reject(
         new Error(`Tiempo de espera agotado - ${endpoint}`)
       );
+    }
+
+    if (!response && request) {
+      console.error(`No hubo respuesta del servidor: ${endpoint}`);
+      return Promise.reject(new Error('No hubo respuesta del servidor'));
     }
   }
 
