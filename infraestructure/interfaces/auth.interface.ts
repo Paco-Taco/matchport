@@ -1,3 +1,5 @@
+import { ImageFile } from '@/components/shared/organisms/ImageUpload';
+
 export interface LoginRequest {
   email: string;
   password: string;
@@ -57,4 +59,15 @@ export interface UsuarioInfo {
   departamento: string;
   sk_puesto: string;
   puesto: string;
+}
+
+export interface RegisterPayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  rfc: string;
+  password: string;
+  ine: ImageFile | null;
+  profilePhoto?: ImageFile | null;
 }

@@ -1,16 +1,5 @@
 import { apiCoreInstance } from '@/api/apiCoreInstance';
-import { ImageFile } from '@/components/shared/organisms/ImageUpload';
-
-export interface RegisterPayload {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  rfc: string;
-  password: string;
-  ine: ImageFile | null;
-  profilePhoto?: ImageFile | null;
-}
+import { RegisterPayload } from '@/infraestructure/interfaces/auth.interface';
 
 export const registerUser = async (payload: RegisterPayload) => {
   const formData = new FormData();

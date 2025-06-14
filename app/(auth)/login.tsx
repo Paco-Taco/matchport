@@ -2,7 +2,7 @@ import SecureInputField from '@/components/shared/atoms/SecureInputField';
 import TextInputCustom from '@/components/shared/atoms/TextInputCustom';
 import KeyboardAwareLayout from '@/components/shared/molecules/KeyboardAwareLayout';
 import { useAuth } from '@/context/AuthContext';
-import { LoginRequest } from '@/infraestructure/interfaces/login.interface';
+import { LoginRequest } from '@/infraestructure/interfaces/auth.interface';
 import { IsAndroid, IsIPAD } from '@/themes/app.constant';
 import { Redirect, useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -82,7 +82,7 @@ const Login = () => {
 
       <View className="form justify-between pb-2">
         <View className="space-y-2">
-          <Text className={'text-gray-700 ml-2 mb-1'}>Email</Text>
+          <Text className={'text-gray-700 ml-2 mb-1 font-regular'}>Email</Text>
           <TextInputCustom
             placeholder="Ingrese su correo"
             value={credentials.email}
@@ -90,7 +90,9 @@ const Login = () => {
           />
 
           <View className="flex">
-            <Text className={`text-gray-700 ml-2 mb-1`}>Contraseña</Text>
+            <Text className={`text-gray-700 ml-2 mb-1 font-regular`}>
+              Contraseña
+            </Text>
             <SecureInputField
               placeholder="Ingrese su contraseña"
               value={credentials.password}

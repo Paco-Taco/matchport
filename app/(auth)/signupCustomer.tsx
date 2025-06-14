@@ -6,10 +6,14 @@ import PhoneInput from '@/components/shared/molecules/PhoneNumberInput';
 import ImageUpload from '@/components/shared/organisms/ImageUpload';
 import { useFormState } from '@/hooks/useFormState';
 import { useValidations } from '@/hooks/useValidation';
-import { RegisterPayload, registerUser } from '@/services/authService';
+import { RegisterPayload } from '@/infraestructure/interfaces/auth.interface';
+import { registerUser } from '@/services/authService';
+import { getErrorMessage } from '@/utils/getErrorMessage';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Pressable, Text, View } from 'react-native';
+
+const isDev = __DEV__;
 
 const signupCustomer = () => {
   const router = useRouter();
@@ -53,12 +57,15 @@ const signupCustomer = () => {
     if (isFormComplete) {
       try {
         setIsLoading(true);
+        console.log(credentials);
         const result = await registerUser(credentials);
         console.log('Usuario creao: ', result);
+        router.replace('/(auth)/registerSuccess');
       } catch (error) {
-        Alert.alert('Error en el registro', String(error));
+        Alert.alert('Error en el registro', getErrorMessage(error));
       } finally {
         setIsLoading(false);
+        router.replace('/(auth)/registerSuccess');
       }
     }
   };
@@ -78,6 +85,9 @@ const signupCustomer = () => {
     isPasswordValid &&
     passwordsMatch;
 
+  useEffect(() => {
+    console.log(credentials.phoneNumber);
+  }, [credentials.phoneNumber]);
   if (isLoading) return <GenericLoader label="Cargando..." />;
 
   return (
@@ -88,6 +98,24 @@ const signupCustomer = () => {
           Crea una cuenta para continuar
         </Text>
       </View>
+      {isDev && (
+        <Pressable
+          onPress={() => {
+            handleInputChange('firstName', 'Juan');
+            handleInputChange('lastName', 'Pérez');
+            handleInputChange('email', 'juan.perez@test.com');
+            // handleInputChange('phoneNumber', '3120000000');
+            handleInputChange('rfc', 'JUAP850101XXX');
+            handleInputChange('password', 'Test1234!');
+            setConfirmedPassword('Test1234!');
+          }}
+          className="p-2 rounded-lg bg-yellow-400 my-4"
+        >
+          <Text className="text-center text-black font-semibold">
+            Autocompletar datos de prueba
+          </Text>
+        </Pressable>
+      )}
 
       <View className="my-8">
         <Text className="font-regular text-gray-700">
@@ -95,6 +123,7 @@ const signupCustomer = () => {
         </Text>
         <View className="items-center">
           <ImageUpload
+            value={credentials.profilePhoto}
             variant="circle"
             onChange={(file) => handleInputChange('profilePhoto', file)}
           />
@@ -196,6 +225,7 @@ const signupCustomer = () => {
       )}
 
       <ImageUpload
+        value={credentials.ine}
         label="INE"
         aspect={[5, 3]}
         onChange={(file) => handleInputChange('ine', file)}
@@ -220,10 +250,10 @@ const signupCustomer = () => {
         </Pressable>
 
         <View className="items-center">
-          <Text className="text-gray-500">
+          <Text className="text-gray-500 font-regular">
             ¿Ya tienes cuenta?{' '}
             <Text
-              className="text-secondary"
+              className="text-secondary font-regular"
               onPress={() => router.push('/(auth)/login')}
             >
               Ingresar

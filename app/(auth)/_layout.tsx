@@ -10,6 +10,7 @@ const AuthLayout = () => {
         options={{ header: () => <CustomHeader /> }}
       />
       <Stack.Screen name="signupPicker" options={{ headerShown: false }} />
+      <Stack.Screen name="registerSuccess" options={{ headerShown: false }} />
     </Stack>
   );
 };

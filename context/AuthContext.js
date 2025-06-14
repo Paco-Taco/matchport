@@ -100,7 +100,7 @@ const AuthProvider = ({ children }) => {
   // };
 
   // contextData = { session, user, setUser, signIn, signOut };
-  contextData = { session, user, setUser };
+  contextData = { session, user, setUser, loading };
 
   return (
     <AuthContext.Provider value={contextData}>

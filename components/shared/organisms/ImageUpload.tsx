@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import clsx from 'clsx';
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
 
 export interface ImageFile {
@@ -9,10 +9,12 @@ export interface ImageFile {
   name: string;
   type: string;
 }
+
 interface ImageUploadProps {
   label?: string;
   variant?: 'rounded' | 'circle';
   aspect?: [number, number];
+  value?: ImageFile | null;
   onChange?: (file: ImageFile) => void;
 }
 
@@ -28,9 +30,16 @@ const ImageUpload = ({
   label,
   variant = 'rounded',
   aspect,
+  value,
   onChange,
 }: ImageUploadProps) => {
-  const [imageUri, setImageUri] = useState<string | null>(null);
+  const [imageUri, setImageUri] = useState<string | null>(value?.uri || null);
+
+  useEffect(() => {
+    if (value?.uri !== imageUri) {
+      setImageUri(value?.uri || null);
+    }
+  }, [value]);
 
   const pickImage = async () => {
     const { granted } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -39,7 +48,6 @@ const ImageUpload = ({
       alert(
         'Se requiere permiso a tu galería para poder seleccionar una foto.'
       );
-
       return;
     }
 
@@ -53,7 +61,6 @@ const ImageUpload = ({
     if (!result.canceled && result.assets.length > 0) {
       const { uri } = result.assets[0];
       const meta = getImageMeta(uri);
-      console.log(meta);
       const file = { uri, name: meta.name, type: meta.type };
 
       setImageUri(uri);

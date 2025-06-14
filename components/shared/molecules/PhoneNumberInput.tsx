@@ -26,7 +26,9 @@ const PhoneInput = ({ onChange }: PhoneInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
 
   useEffect(() => {
-    onChange(`${selectedCountry.code}${phoneNumber.replace(/\D/g, '')}`);
+    if (phoneNumber.length > 7) {
+      onChange(`${selectedCountry.code}${phoneNumber.replace(/\D/g, '')}`);
+    }
   }, [selectedCountry, phoneNumber]);
 
   return (
